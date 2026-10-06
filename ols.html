@@ -246,18 +246,25 @@ function filterList(){
 function redraw(){
   markerLayer.clearLayers();
   const vis=[];
+
   OLS_DATA.forEach(x=>{
     if(!visible(x))return;
-    L.marker([x.lat,x.lon],{icon:icon(OLS_COLORS[x.ansvar]||'#334155')})
-      .bindPopup(popup(x))
-      .addTo(markerLayer);
+
+    L.marker([x.lat,x.lon],{
+      icon:icon(OLS_COLORS[x.ansvar]||'#334155')
+    })
+    .bindPopup(popup(x))
+    .addTo(markerLayer);
+
     vis.push([x.lat,x.lon]);
   });
+
   if(vis.length===1){
-  map.setView(vis[0],12);
-}
-else if(vis.length>1){
-  map.fitBounds(vis,{padding:[30,30]});
+    map.setView(vis[0],12);
+  }
+  else if(vis.length>1){
+    map.fitBounds(vis,{padding:[30,30]});
+  }
 }
 
 document.getElementById('showAllBtn').onclick=()=>{
