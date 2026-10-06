@@ -162,7 +162,10 @@ Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([name,count])=>{
   legend.appendChild(block);
 });
 
-const map=L.map('map').setView([62.2,16.4],5);
+const map=L.map('map',{
+  zoomSnap:0.25,
+  zoomDelta:0.25
+}).setView([62.2,16.4],5);
 
 const standardMap=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,
@@ -250,7 +253,11 @@ function redraw(){
       .addTo(markerLayer);
     vis.push([x.lat,x.lon]);
   });
-  if(vis.length) map.fitBounds(vis,{padding:[30,30]});
+  if(vis.length===1){
+  map.setView(vis[0],12);
+}
+else if(vis.length>1){
+  map.fitBounds(vis,{padding:[30,30]});
 }
 
 document.getElementById('showAllBtn').onclick=()=>{
